@@ -23,6 +23,23 @@ const client = new MongoClient(uri, {
   serverApi: ServerApiVersion.v1,
 });
 
+async function run() {
+  try {
+    await client.connect();
+    const serviceCollection = client.db("geniusCar").collection("service");
+
+    // GET -> Show all services
+    app.get("/services", async (req, res) => {
+      const query = {};
+      const cursor = serviceCollection.find(query);
+      const services = await cursor.toArray();
+      res.send(services);
+    });
+  } finally {
+    // await client.close();
+  }
+}
+run().catch(console.dir);
 app.listen(port, () => {
   console.log("Listening to port", port);
 });
