@@ -62,8 +62,8 @@ async function run() {
 
     // Order collection API
     // store order in mongoDB
-    app.post("/order", async (res, req) => {
-      const order = res.body;
+    app.post("/order", async (req, res) => {
+      const order = req.body;
       const result = await orderCollection.insertOne(order);
       res.send(result);
     });
