@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
+const res = require("express/lib/response");
 // const res = require("express/lib/response");
 require("dotenv").config();
 const port = process.env.PORT || 5000;
@@ -61,6 +62,16 @@ async function run() {
     });
 
     // Order collection API
+
+    app.get("/order", async (req, res) => {
+      const email = req.query.email;
+      console.log(email);
+      const query = { email: email };
+      const cursor = orderCollection.find(query);
+      const orders = await cursor.toArray();
+      res.send(orders);
+    });
+
     // store order in mongoDB
     app.post("/order", async (req, res) => {
       const order = req.body;
