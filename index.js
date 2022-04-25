@@ -12,6 +12,16 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+//middletear
+function verifyJWT(req, res, next) {
+  const authHeader = req.headers.authorization;
+  if (!authHeader) {
+    return res.status(401).send({ message: "Unauthorized access" });
+  }
+  console.log("verify JWT", authHeader);
+  next();
+}
+
 app.get("/", (req, res) => {
   res.send("Running Genius-Server");
 });
@@ -71,7 +81,7 @@ async function run() {
 
     // Order collection API
 
-    app.get("/order", async (req, res) => {
+    app.get("/order", verifyJWT, async (req, res) => {
       const email = req.query.email;
       console.log(email);
       const query = { email: email };
