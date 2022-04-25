@@ -30,8 +30,8 @@ async function run() {
     const serviceCollection = client.db("geniusCar").collection("service");
     const orderCollection = client.db("geniusCar").collection("order");
 
-    // AUTH
-    app.get("/login", async (req, res) => {
+    // AUTH -> JWT
+    app.post("/login", async (req, res) => {
       const user = req.body;
       const accessToken = jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "1d",
